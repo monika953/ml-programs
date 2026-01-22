@@ -1,0 +1,33 @@
+import pandas as pd
+
+def candidate_elimination(df):
+    concepts = df.iloc[:, :-1].values
+    target = df.iloc[:, -1].values
+    s = concepts[0].copy()
+    g = [['?' for _ in range(len(s))]]
+    for i, h in enumerate(concepts):
+        if target[i] == 'Yes':
+            for j in range(len(s)):
+                if s[j] != h[j]:
+                    s[j] = '?'
+            g = [gk for gk in g if all(gk[k] == '?' or gk[k] == h[k] for k in range(len(s)))]
+        else:
+            new_g = []
+            for j in range(len(s)):
+                if s[j] != h[j]:
+                    gk = ['?' for _ in range(len(s))]
+                    gk[j] = s[j]
+                    new_g.append(gk)
+            g.extend(new_g)
+    return s, g
+
+df = pd.DataFrame([
+    ['Sunny','Warm','Normal','Strong','Warm','Same','Yes'],
+    ['Sunny','Warm','High','Strong','Warm','Same','Yes'],
+    ['Rainy','Cold','High','Strong','Warm','Change','No'],
+    ['Sunny','Warm','High','Strong','Cool','Change','Yes']
+])
+s, g = candidate_elimination(df)
+print("Specific:", s)
+print("General:", g)
+
