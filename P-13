@@ -1,0 +1,16 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+
+df = pd.DataFrame({
+    'Age':[3,5,7,2,1,4],
+    'Mileage':[40000,60000,80000,20000,15000,50000],
+    'Price':[20000,15000,12000,25000,30000,18000]
+})
+
+X,y = df[['Age','Mileage']],df['Price']
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.3)
+model = LinearRegression().fit(X_train,y_train)
+print("Predicted Prices:",model.predict(X_test))
+
