@@ -1,0 +1,17 @@
+data = [
+    (['Sunny','Warm','Normal','Strong','Warm','Same'], 'Yes'),
+    (['Sunny','Warm','High','Strong','Warm','Same'], 'Yes'),
+    (['Rainy','Cold','High','Strong','Warm','Change'], 'No'),
+    (['Sunny','Warm','High','Strong','Cool','Change'], 'Yes')
+]
+
+hypothesis = ['?' for _ in data[0][0]]
+for x, y in data:
+    if y == 'Yes':
+        for i in range(len(hypothesis)):
+            if hypothesis[i] == '?':
+                hypothesis[i] = x[i]
+            elif hypothesis[i] != x[i]:
+                hypothesis[i] = '?'
+print("Most specific hypothesis:", hypothesis)
+
