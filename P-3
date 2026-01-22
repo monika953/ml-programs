@@ -1,0 +1,20 @@
+from sklearn.tree import DecisionTreeClassifier
+import pandas as pd
+
+data = pd.DataFrame({
+    'Outlook':['Sunny','Sunny','Overcast','Rainy','Rainy','Rainy','Overcast','Sunny'],
+    'Temp':['Hot','Hot','Hot','Mild','Cool','Cool','Cool','Mild'],
+    'Humidity':['High','High','High','High','Normal','Normal','Normal','High'],
+    'Wind':['Weak','Strong','Weak','Weak','Weak','Strong','Strong','Strong'],
+    'Play':['No','No','Yes','Yes','Yes','No','Yes','No']
+})
+
+X = pd.get_dummies(data[['Outlook','Temp','Humidity','Wind']])
+y = data['Play']
+clf = DecisionTreeClassifier(criterion='entropy')
+clf.fit(X,y)
+
+sample = pd.DataFrame({'Outlook':['Sunny'],'Temp':['Cool'],'Humidity':['High'],'Wind':['Strong']})
+sample = pd.get_dummies(sample).reindex(columns=X.columns, fill_value=0)
+print("Prediction:", clf.predict(sample)[0])
+
