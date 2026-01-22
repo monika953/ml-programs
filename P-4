@@ -1,0 +1,26 @@
+import numpy as np
+
+# Simple 2-layer ANN
+X = np.array([[0,0],[0,1],[1,0],[1,1]])
+y = np.array([[0],[1],[1],[0]])  # XOR
+
+np.random.seed(1)
+W1 = np.random.rand(2,2)
+W2 = np.random.rand(2,1)
+
+def sigmoid(x): return 1/(1+np.exp(-x))
+def dsigmoid(x): return x*(1-x)
+
+for _ in range(10000):
+    l1 = sigmoid(np.dot(X,W1))
+    l2 = sigmoid(np.dot(l1,W2))
+    l2_error = y - l2
+    l2_delta = l2_error * dsigmoid(l2)
+    l1_error = l2_delta.dot(W2.T)
+    l1_delta = l1_error * dsigmoid(l1)
+    W2 += l1.T.dot(l2_delta)
+    W1 += X.T.dot(l1_delta)
+
+print("Predictions after training:")
+print(l2.round(3))
+
